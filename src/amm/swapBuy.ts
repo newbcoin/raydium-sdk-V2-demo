@@ -7,12 +7,12 @@ import { NATIVE_MINT } from '@solana/spl-token'
 import { printSimulateInfo } from '../util'
 import { PublicKey } from '@solana/web3.js'
 
+const amountIn = !isNaN(Number(process.argv[3])) ? Number(process.argv[3]) : (10 * 100000) // 0.0001 SOL multiplier
+const computeUnits = !isNaN(Number(process.argv[4])) ? Number(process.argv[4]) : 150000
+const microLamports = !isNaN(Number(process.argv[5])) ? Number(process.argv[5]) : 3000
+
 export const swap = async () => {
   const raydium = await initSdk()
-  const rawAmountIn = 10 * 100000 // 0.0001 SOL multipler
-  const randDeviation = Math.random() * (0.1 * rawAmountIn)
-  const amountIn = rawAmountIn * 0.9 + (randDeviation - (randDeviation % 10000))
-  //const amountIn = 20 * 10 * 1000000
   const inputMint = NATIVE_MINT.toBase58()
   const poolId = '27yqYt1yMo7QKqGbcivAT655bYqRCgnspwVqa7Fb55iA' // SOL-USDC pool
 
@@ -86,10 +86,10 @@ export const swap = async () => {
     // },
 
     // optional: set up priority fee here
-    computeBudgetConfig: {
-      units: 150000,
-      microLamports: 3000,
-    },
+    //computeBudgetConfig: {
+      //units: computeUnits,
+      //microLamports: microLamports,
+    //},
 
     // optional: add transfer sol to tip account instruction. e.g sent tip to jito
     // txTipConfig: {
